@@ -1,0 +1,11 @@
+STUDENT REGISTRATION FORM
+
+Full Name: ____________________________
+Date of Birth (DD/MM/YYYY): ___________
+Gender: _______________________________
+Email Address: ________________________
+Phone Number: _________________________
+Course Enrolled: ______________________
+Roll Number: __________________________
+Address: ______________________________
+Parent/Guardian Name: _________________
