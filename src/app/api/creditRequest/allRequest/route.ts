@@ -3,9 +3,11 @@ import dbConnect from "@/lib/dbConnect";
 import { NextResponse } from "next/server";
 import { getAuthUser } from "@/context/getAuthUser";
 import creditRequestModel from "@/model/creditRequest";
+import UserModel from "@/model/userModel";
 
 async function getUserName(_id:any) {
-    
+    const user = await UserModel.findById(_id).select("name");
+    return user?.name;
 }
 
 export async function GET() {
@@ -14,13 +16,14 @@ export async function GET() {
         const user = await getAuthUser(["User"]);
         if (user instanceof NextResponse) return user;
 
-        const files = await creditRequestModel
+        const credits = await creditRequestModel
             .find({})
             .lean();
 
-        const formattedDocumentData = files.map(file => ({
-            _id: file._id,
+        const formattedDocumentData = credits.map(credit => ({
+            _id: credit._id,
             userName: getUserName,
+            reason: credit.reason
         }));
         return NextResponse.json({ Documents: formattedDocumentData, success: true }, { status: 200 });
     } catch (error: any) {
