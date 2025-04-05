@@ -8,8 +8,7 @@ export interface User extends Document {
     role: string;
     credit_left: number;
     isActive: boolean;
-    forgotPasswordToken: string,
-    forgotPasswordTokenExpiry: Date,
+    lastLogin: Date;
 }
 
 export const userSchema: Schema<User> = new Schema({
@@ -40,15 +39,13 @@ export const userSchema: Schema<User> = new Schema({
         enum: [
             "User",
             "Admin",
-            "SuperAdmin"
         ],
     },
     isActive: {
         type: Boolean,
         default: false
     },
-    forgotPasswordToken: String,
-    forgotPasswordTokenExpiry: Date
+    lastLogin: Date
 })
 
 const UserModel = (mongoose.models.users as mongoose.Model<User>) || mongoose.model<User>("users", userSchema)

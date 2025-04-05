@@ -18,9 +18,7 @@ export default function HomePage() {
           Smart Document Matcher 🔍
         </h1>
         <p className="text-lg text-white/80">
-        Intelligent Document Comparison at Your Fingertips
-
-    
+          Intelligent Document Comparison at Your Fingertips
         </p>
         <div className="flex justify-center gap-4">
           <Link href="/signin">
