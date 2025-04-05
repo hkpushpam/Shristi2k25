@@ -1,5 +1,5 @@
 "use client";
-
+import { TrendingUp, HelpCircle } from "lucide-react";
 import Link from "next/link";
 import { Users, Settings, FileText, Home, LogOut, BarChart, Shield } from "lucide-react";
 
@@ -14,17 +14,18 @@ export default function AdminDashboard() {
             <Home size={18} /> Dashboard
           </Link>
           <Link href="/admin/users" className="flex items-center gap-2 hover:text-blue-400">
-            <Users size={18} /> Manage Users
+            <Users size={18} /> Users
           </Link>
-          <Link href="/admin/reports" className="flex items-center gap-2 hover:text-blue-400">
-            <FileText size={18} /> Reports
-          </Link>
-          <Link href="/admin/analytics" className="flex items-center gap-2 hover:text-blue-400">
-            <BarChart size={18} /> Analytics
-          </Link>
-          <Link href="/admin/settings" className="flex items-center gap-2 hover:text-blue-400">
-            <Settings size={18} /> Settings
-          </Link>
+          
+    <Link href="/admin/Credit score" className="flex items-center gap-2 hover:text-blue-400">
+  <TrendingUp size={18} /> Credit Score
+</Link>
+
+<Link href="/admin/Help" className="flex items-center gap-2 hover:text-blue-400">
+  <HelpCircle size={18} /> Help
+</Link>
+
+          
         </nav>
         <div className="pt-6 border-t border-slate-700">
           <button className="flex items-center gap-2 text-red-400 hover:underline">
