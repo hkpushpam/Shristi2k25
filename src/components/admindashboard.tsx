@@ -1,63 +1,73 @@
 "use client";
 
-import React, { JSX } from "react";
-import { Home, Users, Settings, BarChart2 } from "lucide-react";
-import Navbar from "./Navbar";
+import Link from "next/link";
+import { Users, Settings, FileText, Home, LogOut, BarChart, Shield } from "lucide-react";
 
-type NavItemProps = {
-  icon: JSX.Element;
-  label: string;
-};
-
-const NavItem = ({ icon, label }: NavItemProps) => (
-  <div className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 cursor-pointer">
-    {icon}
-    <span>{label}</span>
-  </div>
-);
-
-type WidgetProps = {
-  title: string;
-  value: string | number;
-};
-
-function Widget({ title, value }: WidgetProps) {
+export default function AdminDashboard() {
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-md">
-      <h3 className="text-sm text-gray-500">{title}</h3>
-      <p className="text-2xl font-bold mt-2">{value}</p>
+    <div className="min-h-screen bg-slate-900 text-white flex">
+      {/* Sidebar */}
+      <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
+        <h2 className="text-2xl font-bold text-blue-400">Admin Panel</h2>
+        <nav className="space-y-4">
+          <Link href="/admin" className="flex items-center gap-2 hover:text-blue-400">
+            <Home size={18} /> Dashboard
+          </Link>
+          <Link href="/admin/users" className="flex items-center gap-2 hover:text-blue-400">
+            <Users size={18} /> Manage Users
+          </Link>
+          <Link href="/admin/reports" className="flex items-center gap-2 hover:text-blue-400">
+            <FileText size={18} /> Reports
+          </Link>
+          <Link href="/admin/analytics" className="flex items-center gap-2 hover:text-blue-400">
+            <BarChart size={18} /> Analytics
+          </Link>
+          <Link href="/admin/settings" className="flex items-center gap-2 hover:text-blue-400">
+            <Settings size={18} /> Settings
+          </Link>
+        </nav>
+        <div className="pt-6 border-t border-slate-700">
+          <button className="flex items-center gap-2 text-red-400 hover:underline">
+            <LogOut size={18} /> Logout
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-6 md:p-10 space-y-10">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-blue-300">Welcome back, Admin!</h1>
+            <p className="text-slate-400">Here's an overview of your platform activity.</p>
+          </div>
+        </header>
+
+        {/* Stats Cards */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
+            <h2 className="text-lg font-semibold text-blue-400">Total Users</h2>
+            <p className="text-3xl font-bold mt-2">1,204</p>
+          </div>
+          <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
+            <h2 className="text-lg font-semibold text-blue-400">Reports Reviewed</h2>
+            <p className="text-3xl font-bold mt-2">87</p>
+          </div>
+          <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
+            <h2 className="text-lg font-semibold text-blue-400">System Health</h2>
+            <p className="mt-2 text-green-400 font-semibold">✔ All Systems Operational</p>
+          </div>
+        </section>
+
+        {/* Admin Activity Logs */}
+        <section className="bg-slate-800 p-6 rounded-2xl shadow-md">
+          <h2 className="text-xl font-semibold text-blue-400 mb-4">Recent Admin Actions</h2>
+          <ul className="space-y-3 text-slate-300">
+            <li>🛡️ Suspended user <strong>john_doe</strong> for policy violation</li>
+            <li>📊 Exported analytics report <strong>Q1_2025.pdf</strong></li>
+            <li>⚙ Updated platform settings</li>
+          </ul>
+        </section>
+      </main>
     </div>
   );
 }
-
-const AdminDashboard = () => {
-  return (
-    // <div className="min-h-screen flex bg-gray-100">
-    //   <aside className="w-64 bg-white shadow-lg p-4">
-    //     <h2 className="text-2xl font-bold text-blue-600 mb-6">Admin Panel</h2>
-    //     <nav className="space-y-4">
-    //       <NavItem icon={<Home size={18} />} label="Dashboard" />
-    //       <NavItem icon={<Users size={18} />} label="Users" />
-    //       <NavItem icon={<BarChart2 size={18} />} label="Analytics" />
-    //       <NavItem icon={<Settings size={18} />} label="Settings" />
-    //     </nav>
-    //   </aside>
-    
-    <main className="flex-1 p-6">
-      {/* <Navbar /> */}
-        <header className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-semibold">Dashboard Overview</h1>
-          <div className="text-gray-500">Welcome, Admin</div>
-        </header>
-
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Widget title="Total Users" value="1,245" />
-          <Widget title="Active Sessions" value="87" />
-          <Widget title="New Signups" value="32" />
-        </section>
-      </main>
-    // </div>
-  );
-};
-
-export default AdminDashboard;
