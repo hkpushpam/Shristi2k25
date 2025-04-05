@@ -13,7 +13,7 @@ export async function GET() {
 
         const users = await UserModel.find({})
             .sort({ credit_used: -1 })
-            .limit(10)
+            .limit(1)
             .lean();
 
         const formattedCompanyData = users.map(user => ({
@@ -21,7 +21,7 @@ export async function GET() {
             user_name: user.name,
             user_email: user.email,
             user_status: user.isActive ? "Active" : "Inactive",
-            user_credit: user.credit_left
+            credit_used: user.credit_used
         }));
         return NextResponse.json({ Companies: formattedCompanyData, success: true }, { status: 200 });
     } catch (error: any) {
