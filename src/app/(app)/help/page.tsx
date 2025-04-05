@@ -1,46 +1,49 @@
-import React from "react";
-import { TrendingUp} from "lucide-react";
-import { Mail, Phone, Info, HelpCircle, Settings, Users, Home } from "lucide-react";
+"use client";
 
+import { TrendingUp, HelpCircle, Users, Home, LogOut, Mail, Phone, Info } from "lucide-react";
+import Link from "next/link";
+
+// Sample FAQs for Help section
 const faqs = [
   {
-    question: "How do I reset a user password?",
-    answer:
-      "Go to the Users tab, select the user, and click on 'Reset Password'. An email will be sent to the user.",
+    question: "How do I reset a user's password?",
+    answer: "You can reset a user's password from the Users section by selecting 'Reset Password'.",
   },
   {
-    question: "Can I assign roles to new admins?",
-    answer:
-      "Yes, when adding a new admin, select their role from the dropdown options before saving.",
+    question: "How to update credit scores manually?",
+    answer: "Go to the Credit Score section, select a user, and use the 'Update Credits' button.",
   },
   {
-    question: "How do I view system logs?",
-    answer:
-      "Navigate to the 'Logs' section from the sidebar. You can filter logs by date and type.",
+    question: "Can users delete their accounts?",
+    answer: "Yes, users have the option to delete their accounts from their settings.",
   },
 ];
 
-export default function HelpPage() {
+export default function AdminDashboard() {
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="min-h-screen bg-slate-900 text-white flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 text-white p-6 space-y-6">
+      <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
         <h2 className="text-2xl font-bold text-blue-400">Admin Panel</h2>
         <nav className="space-y-4">
-          <div className="flex items-center gap-3 text-slate-300 hover:text-white cursor-pointer">
+          <Link href="/admin" className="flex items-center gap-2 hover:text-blue-400">
             <Home size={18} /> Dashboard
-          </div>
-          <div className="flex items-center gap-3 text-slate-300 hover:text-white cursor-pointer">
+          </Link>
+          <Link href="/user" className="flex items-center gap-2 hover:text-blue-400">
             <Users size={18} /> Users
-          </div>
-          <div className="flex items-center gap-3 text-slate-300 hover:text-white cursor-pointer">
+          </Link>
+          <Link href="/creditscore" className="flex items-center gap-2 hover:text-blue-400">
             <TrendingUp size={18} /> Credit Score
-          </div>
-          <div className="flex items-center gap-3 text-white font-semibold">
+          </Link>
+          <Link href="/help" className="flex items-center gap-2 hover:text-blue-400">
             <HelpCircle size={18} /> Help
-          </div>
-          
+          </Link>
         </nav>
+        <div className="pt-6 border-t border-slate-700">
+          <button className="flex items-center gap-2 text-red-400 hover:underline">
+            <LogOut size={18} /> Logout
+          </button>
+        </div>
       </aside>
 
       {/* Main Content */}

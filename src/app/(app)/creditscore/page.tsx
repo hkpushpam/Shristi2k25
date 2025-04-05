@@ -13,22 +13,22 @@ const projects = [
   {
     title: "Smart Matcher",
     description: "Upload and compare documents using AI-powered similarity detection.",
-    link: "/mydocument",
+    link: "",
   },
   {
     title: "Account Center",
     description: "Manage profile, settings, privacy and terms from one place.",
-    link: "/miscellenious",
+    link: "",
   },
   {
     title: "Request Credits",
     description: "Request document comparison credits to continue using the service.",
-    link: "/credits",
+    link: "",
   },
   {
     title: "Dashboard Overview",
     description: "Overview of your document activity and usage statistics.",
-    link: "/userdashboard",
+    link: "",
   },
 ];
 
@@ -62,11 +62,15 @@ export default function CardHoverEffectDemo() {
 
       {/* Main Content */}
       <main className="flex-1 p-6 md:p-10">
-        <h1 className="text-3xl font-bold text-blue-400 mb-8">Credit- Score </h1>
-        <div className="max-w-5xl mx-auto px-2">
-          <HoverEffect items={projects} />
-        </div>
-      </main>
+  <h1 className="text-3xl font-bold text-blue-400 mb-8">Credit- Score</h1>
+
+  <div className="max-w-5xl mx-auto px-2">
+    <HoverEffect items={projects} />
+
+    
+  </div>
+</main>
+
     </div>
   );
 }
