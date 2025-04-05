@@ -1,12 +1,12 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import mongoose, { Schema, Document} from "mongoose";
 
 export interface User extends Document {
     email: string;
     password: string;
     name: string;
     mobile: string;
-    company: Types.ObjectId;
     role: string;
+    credit_left: number;
     isActive: boolean;
     forgotPasswordToken: string,
     forgotPasswordTokenExpiry: Date,
@@ -31,10 +31,8 @@ export const userSchema: Schema<User> = new Schema({
         unique: true,
         match: [/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, "Please use a valid Email Address"]
     },
-    company: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'CompanySchema',
-        required: [true, "There must be a company which is assigned to the car."]
+    credit_left:{
+        type: Number,
     },
     role: {
         type: String,
