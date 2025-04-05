@@ -13,21 +13,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const userGrowthData = [
-  { name: "Jan", users: 200 },
-  { name: "Feb", users: 350 },
-  { name: "Mar", users: 500 },
-  { name: "Apr", users: 650 },
-  { name: "May", users: 820 },
-  { name: "Jun", users: 1000 },
-  { name: "Jul", users: 1204 },
-];
-
 export default function AdminDashboard() {
   const [totalUsers, setTotalUsers] = useState<number | null>(null);
   const [topUser, setTopUser] = useState<{ name: string; email: string; credits: number } | null>(
     null
   );
+  const [growthData, setGrowthData] = useState([]);
 
   useEffect(() => {
     // Get total users
@@ -41,6 +32,12 @@ export default function AdminDashboard() {
       .then((res) => res.json())
       .then((data) => setTopUser(data))
       .catch((err) => console.error("Error fetching top user:", err));
+
+    // Get user growth data (scans)
+    fetch("/api/admin/scanAnalyze")
+      .then((res) => res.json())
+      .then((data) => setGrowthData(data))
+      .catch((err) => console.error("Error fetching scanAnalyze data:", err));
   }, []);
 
   return (
@@ -107,17 +104,17 @@ export default function AdminDashboard() {
 
         {/* Chart */}
         <section className="bg-slate-800 p-6 rounded-2xl shadow-md">
-          <h2 className="text-lg font-semibold text-blue-400 mb-4">User Growth Over Time</h2>
+          <h2 className="text-lg font-semibold text-blue-400 mb-4">Analyze Chart</h2>
           <div className="w-full h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={userGrowthData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <LineChart data={growthData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="name" stroke="#cbd5e1" />
+                <XAxis dataKey="month" stroke="#cbd5e1" />
                 <YAxis stroke="#cbd5e1" />
                 <Tooltip />
                 <Line
                   type="monotone"
-                  dataKey="users"
+                  dataKey="scans"
                   stroke="#60a5fa"
                   strokeWidth={2}
                   dot={{ r: 4 }}
