@@ -1,5 +1,4 @@
 import { z } from 'zod';
-// const { email, password, name, mobile } = await request.json();
 
 export const signUpSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
