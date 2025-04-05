@@ -1,35 +1,57 @@
 "use client";
-import React from "react";
-import { TrendingUp, Mail, Phone, Info, HelpCircle, Settings, Users, Home } from "lucide-react";
 
-const users = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  name: `User ${i + 1}`,
-  email: `user${i + 1}@example.com`,
-  creditLeft: Math.floor(Math.random() * 19) + 1,
-  status: i % 3 === 0 ? "Inactive" : "Active",
-}));
+import { TrendingUp, HelpCircle, Users, Home, LogOut } from "lucide-react";
+import Link from "next/link";
 
-export default function UsersPage() {
+export default function AdminDashboard() {
+  const users = [
+    {
+      id: 1,
+      name: "John Doe",
+      creditLeft: 25,
+      email: "john@example.com",
+      status: "Active",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      creditLeft: 10,
+      email: "jane@example.com",
+      status: "Inactive",
+    },
+    {
+      id: 3,
+      name: "Alice Johnson",
+      creditLeft: 40,
+      email: "alice@example.com",
+      status: "Active",
+    },
+  ];
+
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="min-h-screen bg-slate-900 text-white flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 text-white p-6 space-y-6">
+      <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
         <h2 className="text-2xl font-bold text-blue-400">Admin Panel</h2>
         <nav className="space-y-4">
-          <div className="flex items-center gap-3 text-slate-300 hover:text-white cursor-pointer">
+          <Link href="/admin" className="flex items-center gap-2 hover:text-blue-400">
             <Home size={18} /> Dashboard
-          </div>
-          <div className="flex items-center gap-3 text-white font-semibold bg-slate-700 px-2 py-1 rounded">
+          </Link>
+          <Link href="/user" className="flex items-center gap-2 hover:text-blue-400">
             <Users size={18} /> Users
-          </div>
-          <div className="flex items-center gap-3 text-slate-300 hover:text-white cursor-pointer">
+          </Link>
+          <Link href="/creditscore" className="flex items-center gap-2 hover:text-blue-400">
             <TrendingUp size={18} /> Credit Score
-          </div>
-          <div className="flex items-center gap-3 text-slate-300 hover:text-white cursor-pointer">
+          </Link>
+          <Link href="/help" className="flex items-center gap-2 hover:text-blue-400">
             <HelpCircle size={18} /> Help
-          </div>
+          </Link>
         </nav>
+        <div className="pt-6 border-t border-slate-700">
+          <button className="flex items-center gap-2 text-red-400 hover:underline">
+            <LogOut size={18} /> Logout
+          </button>
+        </div>
       </aside>
 
       {/* Main Content */}

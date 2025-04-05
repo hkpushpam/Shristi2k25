@@ -1,7 +1,24 @@
 "use client";
-import { TrendingUp, HelpCircle } from "lucide-react";
+
+import { TrendingUp, HelpCircle, Users, Home, LogOut, User } from "lucide-react";
 import Link from "next/link";
-import { Users, Home, LogOut,  } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+
+const topUser = {
+  name: "Alice Johnson",
+  credits: 340,
+  email: "alice@example.com",
+};
+
+const userGrowthData = [
+  { name: "Jan", users: 200 },
+  { name: "Feb", users: 350 },
+  { name: "Mar", users: 500 },
+  { name: "Apr", users: 650 },
+  { name: "May", users: 820 },
+  { name: "Jun", users: 1000 },
+  { name: "Jul", users: 1204 },
+];
 
 export default function AdminDashboard() {
   return (
@@ -16,16 +33,12 @@ export default function AdminDashboard() {
           <Link href="/user" className="flex items-center gap-2 hover:text-blue-400">
             <Users size={18} /> Users
           </Link>
-          
-    <Link href="/creditscore" className="flex items-center gap-2 hover:text-blue-400">
-  <TrendingUp size={18} /> Credit Score
-</Link>
-
-<Link href="/help" className="flex items-center gap-2 hover:text-blue-400">
-  <HelpCircle size={18} /> Help
-</Link>
-
-          
+          <Link href="/creditscore" className="flex items-center gap-2 hover:text-blue-400">
+            <TrendingUp size={18} /> Credit Score
+          </Link>
+          <Link href="/help" className="flex items-center gap-2 hover:text-blue-400">
+            <HelpCircle size={18} /> Help
+          </Link>
         </nav>
         <div className="pt-6 border-t border-slate-700">
           <button className="flex items-center gap-2 text-red-400 hover:underline">
@@ -54,19 +67,31 @@ export default function AdminDashboard() {
             <p className="text-3xl font-bold mt-2">87</p>
           </div>
           <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
-            <h2 className="text-lg font-semibold text-blue-400">System Health</h2>
-            <p className="mt-2 text-green-400 font-semibold">✔ All Systems Operational</p>
+            <h2 className="text-lg font-semibold text-blue-400">Top User</h2>
+            <div className="mt-2">
+              <p className="text-xl font-bold flex items-center gap-2">
+                <User size={18} /> {topUser.name}
+              </p>
+              <p className="text-sm text-slate-400">{topUser.email}</p>
+              <p className="mt-1 text-green-400 font-semibold">{topUser.credits} credits</p>
+            </div>
           </div>
         </section>
 
-        {/* Admin Activity Logs */}
+        {/* Chart */}
         <section className="bg-slate-800 p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-blue-400 mb-4">Recent Admin Actions</h2>
-          <ul className="space-y-3 text-slate-300">
-            <li>🛡️ Suspended user <strong>john_doe</strong> for policy violation</li>
-            <li>📊 Exported analytics report <strong>Q1_2025.pdf</strong></li>
-            <li>⚙ Updated platform settings</li>
-          </ul>
+          <h2 className="text-lg font-semibold text-blue-400 mb-4">User Growth Over Time</h2>
+          <div className="w-full h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={userGrowthData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <XAxis dataKey="name" stroke="#cbd5e1" />
+                <YAxis stroke="#cbd5e1" />
+                <Tooltip />
+                <Line type="monotone" dataKey="users" stroke="#60a5fa" strokeWidth={2} dot={{ r: 4 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </section>
       </main>
     </div>
