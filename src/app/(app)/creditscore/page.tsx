@@ -45,7 +45,7 @@ export default function CardHoverEffectDemo() {
           <Link href="/user" className="flex items-center gap-2 hover:text-blue-400">
             <FileText size={18} /> User
           </Link>
-          <Link href="/admin/creditscore" className="flex items-center gap-2 hover:text-blue-400">
+          <Link href="/creditscore" className="flex items-center gap-2 hover:text-blue-400">
   <TrendingUp size={18} /> Credit Score
 </Link>
 

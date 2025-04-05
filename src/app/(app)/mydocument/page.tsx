@@ -3,31 +3,38 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  Home,
+  LogOut,
   FileText,
+  Home,
   Wallet,
   UserCircle,
-  LogOut,
+  PlusCircle,
   Eye,
   Trash2,
-  PlusCircle,
   X,
 } from "lucide-react";
+import RequestCreditModal from "@/components/RequestCreditModal";
 
-export default function MyDocumentsPage() {
+export default function UserDashboard() {
+  const [showCreditModal, setShowCreditModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const documents = [
-    { name: "report_v1.txt", uploaded: "April 1, 2025" },
-    { name: "research_notes.txt", uploaded: "March 28, 2025" },
-    { name: "draft_proposal.txt", uploaded: "March 20, 2025" },
+    {
+      name: "Report_Q1_2025.pdf",
+      uploaded: "April 1, 2025",
+    },
+    {
+      name: "Analysis_Draft.docx",
+      uploaded: "March 28, 2025",
+    },
   ];
 
   return (
-    <div className="flex min-h-screen bg-slate-900 text-white">
-      {/* Sidebar (same as Miscellenious) */}
+    <div className="min-h-screen bg-slate-900 text-white flex">
+      {/* Sidebar */}
       <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
-        <h2 className="text-2xl font-bold text-blue-400">Dashboard</h2>
+        <h2 className="text-2xl font-bold text-blue-400">User-Dashboard</h2>
         <nav className="space-y-4">
           <Link href="/userdashboard" className="flex items-center gap-2 hover:text-blue-400">
             <Home size={18} /> Home
@@ -35,9 +42,12 @@ export default function MyDocumentsPage() {
           <Link href="/mydocument" className="flex items-center gap-2 hover:text-blue-400">
             <FileText size={18} /> My Documents
           </Link>
-          <Link href="/credits" className="flex items-center gap-2 hover:text-blue-400">
+          <button
+            onClick={() => setShowCreditModal(true)}
+            className="flex items-center gap-2 hover:text-blue-400 text-left w-full"
+          >
             <Wallet size={18} /> Request Credit
-          </Link>
+          </button>
           <Link href="/miscellenious" className="flex items-center gap-2 hover:text-blue-400">
             <UserCircle size={18} /> My Profile
           </Link>
@@ -48,6 +58,9 @@ export default function MyDocumentsPage() {
           </button>
         </div>
       </aside>
+
+      {/* Request Credit Modal */}
+      <RequestCreditModal open={showCreditModal} onClose={() => setShowCreditModal(false)} />
 
       {/* Main Content */}
       <main className="flex-1 p-6 md:p-10">
@@ -113,6 +126,7 @@ export default function MyDocumentsPage() {
               >
                 <input
                   type="file"
+                  accept=".txt"
                   className="block w-full text-sm text-slate-200 file:mr-4 file:py-2 file:px-4
                              file:rounded-lg file:border-0
                              file:bg-blue-600 file:text-white
