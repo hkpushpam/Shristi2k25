@@ -11,9 +11,9 @@ export async function GET() {
         const user = await getAuthUser(["Admin"]);
         if (user instanceof NextResponse) return user;
 
-        const users = await UserModel
-            .find({role: "User"})
-            .select("_id email name isActive credit_left -password")
+        const users = await UserModel.find({})
+            .sort({ credit_used: -1 })
+            .limit(10)
             .lean();
 
         const formattedCompanyData = users.map(user => ({
