@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
     await dbConnect();
-
+    console.log("Request recieved");
     try {
         const validate = signUpSchema.safeParse(await request.json);
         if (validate.success) {
@@ -39,7 +39,6 @@ export async function POST(request: Request) {
                     email: validatedData.email,
                     password: hashedPassword,
                     name: validatedData.name,
-                    mobile: validatedData.mobile,
                     credit_left: 20,
                     isVerified: true,
                     role: 'user',

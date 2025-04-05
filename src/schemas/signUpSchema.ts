@@ -10,6 +10,4 @@ export const signUpSchema = z.object({
   name: z
     .string()
     .min(3,{message: "User's name can't be smaller than 3 characters"}),
-
-  mobile: z.string()
 });
