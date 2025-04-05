@@ -10,7 +10,7 @@ export default function AdminDashboard() {
       <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
         <h2 className="text-2xl font-bold text-blue-400">Admin Panel</h2>
         <nav className="space-y-4">
-          <Link href="/admin1" className="flex items-center gap-2 hover:text-blue-400">
+          <Link href="/admin" className="flex items-center gap-2 hover:text-blue-400">
             <Home size={18} /> Dashboard
           </Link>
           <Link href="/user" className="flex items-center gap-2 hover:text-blue-400">
@@ -21,7 +21,7 @@ export default function AdminDashboard() {
   <TrendingUp size={18} /> Credit Score
 </Link>
 
-<Link href="/admin/Help" className="flex items-center gap-2 hover:text-blue-400">
+<Link href="/help" className="flex items-center gap-2 hover:text-blue-400">
   <HelpCircle size={18} /> Help
 </Link>
 

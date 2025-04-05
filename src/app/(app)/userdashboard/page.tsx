@@ -1,26 +1,26 @@
-
-
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Bell, LogOut, Settings, FileText, Home } from "lucide-react";
-import { Profiler } from "react";
-
-import { UserCircle } from "lucide-react";
-
-import { Wallet } from "lucide-react";
-
-
-
+import {
+  
+  LogOut,
+  
+  FileText,
+  Home,
+  Wallet,
+  UserCircle,
+} from "lucide-react";
+import RequestCreditModal from "@/components/RequestCreditModal";
 
 export default function UserDashboard() {
+  const [showCreditModal, setShowCreditModal] = useState(false);
+
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
       {/* Sidebar */}
-
-      
       <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
-        <h2 className="text-2xl font-bold text-blue-400">Dashboard</h2>
+        <h2 className="text-2xl font-bold text-blue-400">User-Dashboard</h2>
         <nav className="space-y-4">
           <Link href="/userdashboard" className="flex items-center gap-2 hover:text-blue-400">
             <Home size={18} /> Home
@@ -28,18 +28,15 @@ export default function UserDashboard() {
           <Link href="/mydocument" className="flex items-center gap-2 hover:text-blue-400">
             <FileText size={18} /> My Documents
           </Link>
-
-          <Link href="/credits" className="flex items-center gap-2 hover:text-blue-400">
-  <Wallet size={18} /> Request Credit
-</Link>
-
-          {/* import { UserCircle } from "lucide-react"; // Make sure this is imported */}
-
-<Link href="/miscellenious" className="flex items-center gap-2 hover:text-blue-400"> 
-  <UserCircle size={18} /> My Profile
-</Link>
-
-          
+          <button
+            onClick={() => setShowCreditModal(true)}
+            className="flex items-center gap-2 hover:text-blue-400 text-left w-full"
+          >
+            <Wallet size={18} /> Request Credit
+          </button>
+          <Link href="/miscellenious" className="flex items-center gap-2 hover:text-blue-400">
+            <UserCircle size={18} /> My Profile
+          </Link>
         </nav>
         <div className="pt-6 border-t border-slate-700">
           <button className="flex items-center gap-2 text-red-400 hover:underline">
@@ -48,6 +45,9 @@ export default function UserDashboard() {
         </div>
       </aside>
 
+      {/* Request Credit Modal */}
+      <RequestCreditModal open={showCreditModal} onClose={() => setShowCreditModal(false)} />
+
       {/* Main Content */}
       <main className="flex-1 p-6 md:p-10 space-y-10">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -55,7 +55,6 @@ export default function UserDashboard() {
             <h1 className="text-3xl font-bold text-blue-300">Welcome back, User!</h1>
             <p className="text-slate-400">Here is your document activity summary.</p>
           </div>
-         
         </header>
 
         {/* Stats Cards */}

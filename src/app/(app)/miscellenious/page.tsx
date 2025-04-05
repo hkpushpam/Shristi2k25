@@ -3,23 +3,38 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  Home,
+  LogOut,
   FileText,
+  Home,
   Wallet,
   UserCircle,
-  LogOut
+ 
 } from "lucide-react";
+import RequestCreditModal from "@/components/RequestCreditModal";
 
-const tabs = ["Profile", "Settings", "Terms", "Privacy"];
-
-export default function AccountCenterPage() {
+export default function UserDashboard() {
+  const [showCreditModal, setShowCreditModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState("Profile");
 
+  const tabs = ["Profile", "Settings", "Terms", "Privacy"];
+
+  const documents = [
+    {
+      name: "Report_Q1_2025.pdf",
+      uploaded: "April 1, 2025",
+    },
+    {
+      name: "Analysis_Draft.docx",
+      uploaded: "March 28, 2025",
+    },
+  ];
+
   return (
-    <div className="flex min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-slate-900 text-white flex">
       {/* Sidebar */}
       <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
-        <h2 className="text-2xl font-bold text-blue-400">Dashboard</h2>
+        <h2 className="text-2xl font-bold text-blue-400">User-Dashboard</h2>
         <nav className="space-y-4">
           <Link href="/userdashboard" className="flex items-center gap-2 hover:text-blue-400">
             <Home size={18} /> Home
@@ -27,9 +42,12 @@ export default function AccountCenterPage() {
           <Link href="/mydocument" className="flex items-center gap-2 hover:text-blue-400">
             <FileText size={18} /> My Documents
           </Link>
-          <Link href="/credits" className="flex items-center gap-2 hover:text-blue-400">
+          <button
+            onClick={() => setShowCreditModal(true)}
+            className="flex items-center gap-2 hover:text-blue-400 text-left w-full"
+          >
             <Wallet size={18} /> Request Credit
-          </Link>
+          </button>
           <Link href="/miscellenious" className="flex items-center gap-2 hover:text-blue-400">
             <UserCircle size={18} /> My Profile
           </Link>
@@ -40,6 +58,9 @@ export default function AccountCenterPage() {
           </button>
         </div>
       </aside>
+
+      {/* Request Credit Modal */}
+      <RequestCreditModal open={showCreditModal} onClose={() => setShowCreditModal(false)} />
 
       {/* Main Content */}
       <main className="flex-1 p-6 md:p-10">
