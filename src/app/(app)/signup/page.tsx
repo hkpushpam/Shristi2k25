@@ -20,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { signUpSchema } from "@/schemas/register/signUpSchema";
+import { signUpSchema } from "@/schemas/signUpSchema";
 
 export default function SignUpForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,7 +101,7 @@ export default function SignUpForm() {
                   <Input
                     {...field}
                   />
-                  <p className="text-muted text-gray-400 text-sm">
+                  <p className="text-muted text-sm">
                     We will send you a verification code
                   </p>
                   <FormMessage />

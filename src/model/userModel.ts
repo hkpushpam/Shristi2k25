@@ -7,6 +7,7 @@ export interface User extends Document {
     mobile: string;
     role: string;
     credit_left: number;
+    credit_used: number;
     isActive: boolean;
     lastLogin: Date;
 }
