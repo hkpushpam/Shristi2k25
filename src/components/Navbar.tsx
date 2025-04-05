@@ -1,29 +1,35 @@
-'use client';
-
-
-import Link from 'next/link';
-import React from 'react';
-
-const Navbar = () => {
+export default function Sidebar() {
   return (
-    <nav className="bg-white shadow-md px-6 py-4">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-blue-600">Admin Panel</h1>
-
-        <div className="space-x-8 text-gray-700 font-medium">
-          <Link href="/admin/dashboard" className="hover:text-blue-600 transition">
-            Dashboard
-          </Link>
-          <Link href="/admin/users" className="hover:text-blue-600 transition">
-            Users
-          </Link>
-          <Link href="/admin/creditscore" className="hover:text-blue-600 transition">
-            Credit Score
-          </Link>
+    <aside className="w-64 bg-white shadow-md h-screen p-6">
+      {/* Logo Section */}
+      <div className="flex items-center space-x-3 mb-8">
+        <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+          A
         </div>
+        <span className="text-xl font-semibold text-gray-800">Admin Panel</span>
       </div>
-    </nav>
-  );
-};
 
-export default Navbar;
+      {/* Navigation Items */}
+      <nav className="space-y-4 text-gray-600">
+        <a href="#" className="flex items-center space-x-3 hover:text-purple-600">
+          <span>🏠</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" className="flex items-center space-x-3 hover:text-purple-600">
+          <span>👥</span>
+          <span>Users</span>
+        </a>
+        <a href="/admin/creditscore" className="flex items-center space-x-3 hover:text-purple-600">
+  <span>💳</span>
+  <span>Credit Score</span>
+</a>
+
+        <a href="#" className="flex items-center space-x-3 hover:text-purple-600">
+          <span>❓</span>
+          <span>Help</span>
+        </a>
+        
+      </nav>
+    </aside>
+  );
+}
