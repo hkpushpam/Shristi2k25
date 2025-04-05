@@ -2,21 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FileText, Eye, Trash2, PlusCircle, X, LayoutDashboard, UploadCloud, Settings } from "lucide-react";
-import { usePathname } from "next/navigation";
-import clsx from "clsx";
-
-// Sidebar navigation items
-const navItems = [
-  { name: "Dashboard", href: "/userdashboard", icon: LayoutDashboard },
-  { name: "My Documents", href: "/mydocument", icon: FileText },
-  
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
-];
+import {
+  Home,
+  FileText,
+  Wallet,
+  UserCircle,
+  LogOut,
+  Eye,
+  Trash2,
+  PlusCircle,
+  X,
+} from "lucide-react";
 
 export default function MyDocumentsPage() {
   const [showModal, setShowModal] = useState(false);
-  const pathname = usePathname();
 
   const documents = [
     { name: "report_v1.txt", uploaded: "April 1, 2025" },
@@ -25,29 +24,33 @@ export default function MyDocumentsPage() {
   ];
 
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <aside className="h-screen w-64 bg-slate-900 text-white shadow-lg p-6 hidden md:block fixed">
-        <div className="text-2xl font-bold text-blue-400 mb-8">SmartMatcher</div>
+    <div className="flex min-h-screen bg-slate-900 text-white">
+      {/* Sidebar (same as Miscellenious) */}
+      <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
+        <h2 className="text-2xl font-bold text-blue-400">Dashboard</h2>
         <nav className="space-y-4">
-          {navItems.map(({ name, href, icon: Icon }) => (
-            <Link
-              key={name}
-              href={href}
-              className={clsx(
-                "flex items-center gap-3 px-4 py-2 rounded-lg transition hover:bg-slate-800",
-                pathname === href ? "bg-slate-800 text-blue-400" : "text-slate-300"
-              )}
-            >
-              <Icon size={20} />
-              {name}
-            </Link>
-          ))}
+          <Link href="/userdashboard" className="flex items-center gap-2 hover:text-blue-400">
+            <Home size={18} /> Home
+          </Link>
+          <Link href="/mydocument" className="flex items-center gap-2 hover:text-blue-400">
+            <FileText size={18} /> My Documents
+          </Link>
+          <Link href="/credits" className="flex items-center gap-2 hover:text-blue-400">
+            <Wallet size={18} /> Request Credit
+          </Link>
+          <Link href="/miscellenious" className="flex items-center gap-2 hover:text-blue-400">
+            <UserCircle size={18} /> My Profile
+          </Link>
         </nav>
+        <div className="pt-6 border-t border-slate-700">
+          <button className="flex items-center gap-2 text-red-400 hover:underline">
+            <LogOut size={18} /> Logout
+          </button>
+        </div>
       </aside>
 
       {/* Main Content */}
-      <main className="ml-0 md:ml-64 w-full min-h-screen bg-slate-900 text-white p-6 md:p-10 relative">
+      <main className="flex-1 p-6 md:p-10">
         <header className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4">
           <div>
             <h1 className="text-3xl font-bold text-blue-300">My Documents</h1>
@@ -61,6 +64,7 @@ export default function MyDocumentsPage() {
           </button>
         </header>
 
+        {/* Document List */}
         <section className="space-y-4">
           {documents.map((doc, index) => (
             <div
@@ -122,14 +126,12 @@ export default function MyDocumentsPage() {
                   >
                     Cancel
                   </button>
-
                   <button
                     type="submit"
                     className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
                   >
                     Upload
                   </button>
-                 
                 </div>
               </form>
             </div>
