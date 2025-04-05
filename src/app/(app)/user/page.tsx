@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
-import { TrendingUp, Mail, Phone, Info, HelpCircle, Settings, Users, Home } from "lucide-react";
+import React, { useState } from "react";
+import { TrendingUp, HelpCircle, Users, Home } from "lucide-react";
 
-const users = Array.from({ length: 20 }, (_, i) => ({
+const initialUsers = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
   name: `User ${i + 1}`,
   email: `user${i + 1}@example.com`,
@@ -11,6 +11,21 @@ const users = Array.from({ length: 20 }, (_, i) => ({
 }));
 
 export default function UsersPage() {
+  const [users, setUsers] = useState(initialUsers);
+
+  const toggleStatus = (id) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === id
+          ? {
+              ...user,
+              status: user.status === "Active" ? "Inactive" : "Active",
+            }
+          : user
+      )
+    );
+  };
+
   return (
     <div className="flex min-h-screen w-full">
       {/* Sidebar */}
@@ -53,15 +68,16 @@ export default function UsersPage() {
                     <td className="px-4 py-3">{user.creditLeft} credits</td>
                     <td className="px-4 py-3">{user.email}</td>
                     <td className="px-4 py-3">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      <button
+                        onClick={() => toggleStatus(user.id)}
+                        className={`px-2 py-1 rounded-full text-xs font-medium transition ${
                           user.status === "Active"
-                            ? "bg-green-400/10 text-green-400"
-                            : "bg-red-400/10 text-red-400"
+                            ? "bg-green-400/10 text-green-400 hover:bg-green-400/20"
+                            : "bg-red-400/10 text-red-400 hover:bg-red-400/20"
                         }`}
                       >
                         {user.status}
-                      </span>
+                      </button>
                     </td>
                   </tr>
                 ))}
