@@ -6,16 +6,39 @@ import { X } from "lucide-react";
 export default function RequestCreditModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [credits, setCredits] = useState("");
   const [reason, setReason] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 🔗 Replace with actual API request logic
-    console.log("Credit Request Sent:", { credits, reason });
 
-    // Reset form and close
-    setCredits("");
-    setReason("");
-    onClose();
+    setLoading(true);
+    try {
+      const res = await fetch("/api/creditRequest/requestCredit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          credits: Number(credits),
+          reason,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("Credit request submitted successfully!");
+        setCredits("");
+        setReason("");
+        onClose();
+      } else {
+        alert(data.message || "Failed to submit request");
+      }
+    } catch (error) {
+      console.error("Request Error:", error);
+      alert("Something went wrong. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!open) return null;
@@ -39,6 +62,7 @@ export default function RequestCreditModal({ open, onClose }: { open: boolean; o
               onChange={(e) => setCredits(e.target.value)}
               className="w-full p-2 rounded bg-slate-700 text-white"
               required
+              min={1}
             />
           </div>
           <div>
@@ -61,9 +85,12 @@ export default function RequestCreditModal({ open, onClose }: { open: boolean; o
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+              disabled={loading}
+              className={`px-4 py-2 rounded-lg ${
+                loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+              } text-white`}
             >
-              Send Request
+              {loading ? "Sending..." : "Send Request"}
             </button>
           </div>
         </form>
