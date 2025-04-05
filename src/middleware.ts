@@ -4,13 +4,8 @@ export { default } from "next-auth/middleware";
 
 export const config = {
   matcher: [
-    "/sign-in",
-    "/sign-up",
-    "/verify",
-    "/dashboardNew",
-    "/forms/registerCar",
-    "/forms/carDetails/:path*",
-    "/dashboard",
+    "/signin",
+    "/signup",
     "/admin",
     "/superAdmin",
   ],
