@@ -50,12 +50,24 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card>
+         
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
+            < div className = "mt-6 flex gap-4 justify-end" >
+    <button className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold">
+      Cancel
+    </button>
+    <button className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold">
+      Approve
+    </button>
+  </div>
           </Card>
+          {/* Buttons Section */ }
+       
         </Link>
-      ))}
-    </div>
+  ))
+}
+    </div >
   );
 };
 
