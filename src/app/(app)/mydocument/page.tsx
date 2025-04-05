@@ -93,13 +93,7 @@ export default function UserDashboard() {
               </div>
               <div className="flex gap-3">
                 <button className="text-blue-400 hover:underline flex items-center gap-1">
-                  <Eye size={16} /> View
-                </button>
-                <button className="text-blue-400 hover:underline flex items-center gap-1">
                   🔁 Compare
-                </button>
-                <button className="text-red-400 hover:underline flex items-center gap-1">
-                  <Trash2 size={16} /> Delete
                 </button>
               </div>
             </div>

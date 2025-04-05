@@ -1,32 +1,30 @@
 "use client";
+import React, { useState } from "react";
+import { TrendingUp, HelpCircle, Users, Home } from "lucide-react";
 
-import { TrendingUp, HelpCircle, Users, Home, LogOut } from "lucide-react";
-import Link from "next/link";
+const initialUsers = Array.from({ length: 20 }, (_, i) => ({
+  id: i + 1,
+  name: `User ${i + 1}`,
+  email: `user${i + 1}@example.com`,
+  creditLeft: Math.floor(Math.random() * 19) + 1,
+  status: i % 3 === 0 ? "Inactive" : "Active",
+}));
 
-export default function AdminDashboard() {
-  const users = [
-    {
-      id: 1,
-      name: "John Doe",
-      creditLeft: 25,
-      email: "john@example.com",
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      creditLeft: 10,
-      email: "jane@example.com",
-      status: "Inactive",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      creditLeft: 40,
-      email: "alice@example.com",
-      status: "Active",
-    },
-  ];
+export default function UsersPage() {
+  const [users, setUsers] = useState(initialUsers);
+
+  const toggleStatus = (id) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === id
+          ? {
+              ...user,
+              status: user.status === "Active" ? "Inactive" : "Active",
+            }
+          : user
+      )
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
@@ -75,15 +73,16 @@ export default function AdminDashboard() {
                     <td className="px-4 py-3">{user.creditLeft} credits</td>
                     <td className="px-4 py-3">{user.email}</td>
                     <td className="px-4 py-3">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      <button
+                        onClick={() => toggleStatus(user.id)}
+                        className={`px-2 py-1 rounded-full text-xs font-medium transition ${
                           user.status === "Active"
-                            ? "bg-green-400/10 text-green-400"
-                            : "bg-red-400/10 text-red-400"
+                            ? "bg-green-400/10 text-green-400 hover:bg-green-400/20"
+                            : "bg-red-400/10 text-red-400 hover:bg-red-400/20"
                         }`}
                       >
                         {user.status}
-                      </span>
+                      </button>
                     </td>
                   </tr>
                 ))}
