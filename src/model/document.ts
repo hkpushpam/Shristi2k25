@@ -1,12 +1,12 @@
 import mongoose, { Schema, Document, Types} from "mongoose";
 
-export interface files extends Document {
+export interface Files extends Document {
     name: string;
     embeddings: number[];
     user: Types.ObjectId;
 }
 
-export const filesSchema: Schema<files> = new Schema({
+export const filesSchema: Schema<Files> = new Schema({
     name: String,
     embeddings: Array(Number),
     user: {
@@ -16,6 +16,6 @@ export const filesSchema: Schema<files> = new Schema({
     },
 })
 
-const fileModel = (mongoose.models.users as mongoose.Model<files>) || mongoose.model<files>("users", filesSchema);
+const fileModel = (mongoose.models.files as mongoose.Model<Files>) || mongoose.model<Files>("users", filesSchema);
 
 export default fileModel;
