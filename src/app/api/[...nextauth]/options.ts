@@ -45,7 +45,6 @@ export const authOptions: NextAuthOptions = {
                 token.name =  user.name;
                 token.role = user.role;
                 token.email = user.email;
-                token.company = user.company?.toString();
             }
             return token;
         },
@@ -54,7 +53,6 @@ export const authOptions: NextAuthOptions = {
                 session.user._id = token.id;
                 session.user.role = token.role;
                 session.user.email = token.email;
-                session.user.company = token.company;
             }
             return session;
         },
@@ -64,6 +62,6 @@ export const authOptions: NextAuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: '/signin'
+        signIn: '/sign-in'
     },
 };
