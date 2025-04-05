@@ -101,7 +101,7 @@ export default function SignUpForm() {
                   <Input
                     {...field}
                   />
-                  <p className="text-muted text-gray-400 text-sm">
+                  <p className="text-muted text-sm">
                     We will send you a verification code
                   </p>
                   <FormMessage />
