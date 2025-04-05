@@ -9,7 +9,6 @@ import {
   Home,
   Wallet,
   UserCircle,
- 
 } from "lucide-react";
 import RequestCreditModal from "@/components/RequestCreditModal";
 
@@ -17,6 +16,10 @@ export default function UserDashboard() {
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState("Profile");
+
+  const [email, setEmail] = useState("user@example.com");
+  const [newPassword, setNewPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
 
   const tabs = ["Profile", "Settings", "Terms", "Privacy"];
 
@@ -30,6 +33,35 @@ export default function UserDashboard() {
       uploaded: "March 28, 2025",
     },
   ];
+
+  const handleChangePassword = async () => {
+    try {
+      const response = await fetch("/api/changePassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          newPassword,
+          oldPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Password changed successfully!");
+        setNewPassword("");
+        setOldPassword("");
+      } else {
+        alert(data.message || "Failed to change password.");
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      alert("An error occurred while changing password.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
@@ -93,19 +125,33 @@ export default function UserDashboard() {
                 <label className="block text-slate-300 mb-1">Email</label>
                 <input
                   type="email"
-                  defaultValue="user@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full p-2 rounded bg-slate-800 text-white"
                 />
               </div>
               <div>
                 <label className="block text-slate-300 mb-1">New Password</label>
-                <input type="password" className="w-full p-2 rounded bg-slate-800 text-white" />
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full p-2 rounded bg-slate-800 text-white"
+                />
               </div>
               <div>
                 <label className="block text-slate-300 mb-1">Old Password</label>
-                <input type="password" className="w-full p-2 rounded bg-slate-800 text-white" />
+                <input
+                  type="password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  className="w-full p-2 rounded bg-slate-800 text-white"
+                />
               </div>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+              <button
+                onClick={handleChangePassword}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mt-4"
+              >
                 Save Changes
               </button>
             </>
