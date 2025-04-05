@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   LogOut,
@@ -9,7 +9,6 @@ import {
   Wallet,
   UserCircle,
   PlusCircle,
- 
   X,
 } from "lucide-react";
 import RequestCreditModal from "@/components/RequestCreditModal";
@@ -17,17 +16,51 @@ import RequestCreditModal from "@/components/RequestCreditModal";
 export default function UserDashboard() {
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [documents, setDocuments] = useState([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const documents = [
-    {
-      name: "Report_Q1_2025.pdf",
-      uploaded: "April 1, 2025",
-    },
-    {
-      name: "Analysis_Draft.docx",
-      uploaded: "March 28, 2025",
-    },
-  ];
+  // Fetch documents from API
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const res = await fetch("/api/user/AllDocument");
+        const data = await res.json();
+        setDocuments(data.documents || []);
+      } catch (error) {
+        console.error("Failed to fetch documents:", error);
+      }
+    };
+
+    fetchDocuments();
+  }, []);
+
+  // Handle file upload
+  const handleUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      const res = await fetch("/api/fileupload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.ok) {
+        const updatedDocs = await res.json();
+        setDocuments(updatedDocs.documents || []);
+        setShowModal(false);
+        setSelectedFile(null);
+      } else {
+        console.error("Upload failed");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
@@ -58,10 +91,8 @@ export default function UserDashboard() {
         </div>
       </aside>
 
-      {/* Request Credit Modal */}
       <RequestCreditModal open={showCreditModal} onClose={() => setShowCreditModal(false)} />
 
-      {/* Main Content */}
       <main className="flex-1 p-6 md:p-10">
         <header className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4">
           <div>
@@ -76,9 +107,8 @@ export default function UserDashboard() {
           </button>
         </header>
 
-        {/* Document List */}
         <section className="space-y-4">
-          {documents.map((doc, index) => (
+          {documents.map((doc: any, index: number) => (
             <div
               key={index}
               className="bg-slate-800 p-4 rounded-xl flex items-center justify-between shadow-sm hover:bg-slate-700 transition"
@@ -99,7 +129,6 @@ export default function UserDashboard() {
           ))}
         </section>
 
-        {/* Upload Modal */}
         {showModal && (
           <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center">
             <div className="bg-slate-800 rounded-2xl p-6 w-full max-w-md shadow-lg relative">
@@ -110,16 +139,11 @@ export default function UserDashboard() {
                 <X size={20} />
               </button>
               <h2 className="text-xl font-bold text-blue-300 mb-4">Upload Document</h2>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setShowModal(false);
-                }}
-                className="space-y-4"
-              >
+              <form onSubmit={handleUpload} className="space-y-4">
                 <input
                   type="file"
-                  accept=".txt"
+                  accept=".txt,.pdf,.doc,.docx"
+                  onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
                   className="block w-full text-sm text-slate-200 file:mr-4 file:py-2 file:px-4
                              file:rounded-lg file:border-0
                              file:bg-blue-600 file:text-white
