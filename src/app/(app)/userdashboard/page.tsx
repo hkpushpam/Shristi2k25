@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
-  
   LogOut,
-  
   FileText,
   Home,
   Wallet,
@@ -15,6 +13,44 @@ import RequestCreditModal from "@/components/RequestCreditModal";
 
 export default function UserDashboard() {
   const [showCreditModal, setShowCreditModal] = useState(false);
+  const [documentCount, setDocumentCount] = useState(0);
+  const [creditLeft, setCreditLeft] = useState(0);
+  const [lastLogin, setLastLogin] = useState("");
+
+  useEffect(() => {
+    // Fetch document count
+    const fetchDocuments = async () => {
+      try {
+        const res = await fetch("/api/user/totalDocument");
+        const data = await res.json();
+        setDocumentCount(data.total || 0);
+      } catch (error) {
+        console.error("Error fetching documents:", error);
+      }
+    };
+
+    // Fetch session data (credit left and last login)
+    const fetchSession = async () => {
+      try {
+        const res = await fetch("/api/auth/session");
+        const sessionData = await res.json();
+        setCreditLeft(sessionData.user?.credit || 0);
+        const lastLoginDate = sessionData.user?.lastLogin
+          ? new Date(sessionData.user.lastLogin).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          : "N/A";
+        setLastLogin(lastLoginDate);
+      } catch (error) {
+        console.error("Error fetching session:", error);
+      }
+    };
+
+    fetchDocuments();
+    fetchSession();
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
@@ -61,28 +97,19 @@ export default function UserDashboard() {
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
             <h2 className="text-lg font-semibold text-blue-400">Documents Uploaded</h2>
-            <p className="text-3xl font-bold mt-2">42</p>
+            <p className="text-3xl font-bold mt-2">{documentCount}</p>
           </div>
           <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
-            <h2 className="text-lg font-semibold text-blue-400">Credit left</h2>
-            <p className="text-3xl font-bold mt-2">85</p>
+            <h2 className="text-lg font-semibold text-blue-400">Credit Left</h2>
+            <p className="text-3xl font-bold mt-2">{creditLeft}</p>
           </div>
           <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
             <h2 className="text-lg font-semibold text-blue-400">Last Login</h2>
-            <p className="mt-2 text-slate-300">April 5, 2025</p>
+            <p className="mt-2 text-slate-300">{lastLogin}</p>
           </div>
         </section>
 
-        {/* Recent Activity */}
-        <section className="bg-slate-800 p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-blue-400 mb-4">Recent Activity</h2>
-          <ul className="space-y-3 text-slate-300">
-            <li>✅ Compared <strong>Report_V1.txt</strong> with <strong>Report_V2.txt</strong></li>
-            <li>📄 Uploaded <strong>ResearchNotes.txt</strong></li>
-            <li>⚙️ Changed settings</li>
-          </ul>
-        </section>
-      </main>
+       </main>
     </div>
   );
 }
