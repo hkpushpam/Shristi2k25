@@ -19,18 +19,18 @@ export async function POST(
         const creditData = await userModel.findByIdAndDelete(credit_id);
         if (!creditData) {
             return Response.json(
-                { success: false, message: "User not found" },
+                { success: false, message: "Request not found" },
                 { status: 404 }
             );
         }
         return NextResponse.json(
-            { success: true, message: "Updated the User's activity Successfully" },
+            { success: true, message: "Deleted Successfully" },
             { status: 200 }
         );
     } catch (error: any) {
         console.error(error);
         return NextResponse.json(
-            { success: false, message: "Something went wrong while updating the Company's Activity" + error },
+            { success: false, message: "Something went wrong"},
             { status: 500 }
         );
     }
