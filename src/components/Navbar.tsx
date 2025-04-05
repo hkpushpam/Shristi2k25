@@ -11,7 +11,7 @@ export default function Sidebar() {
 
       {/* Navigation Items */}
       <nav className="space-y-4 text-gray-600">
-        <a href="#" className="flex items-center space-x-3 hover:text-purple-600">
+        <a href="/admin" className="flex items-center space-x-3 hover:text-purple-600">
           <span>🏠</span>
           <span>Dashboard</span>
         </a>
