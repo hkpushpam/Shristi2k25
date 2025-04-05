@@ -1,0 +1,9 @@
+EVENT REGISTRATION FORM
+
+Event Name: ___________________________
+Full Name: ____________________________
+Email Address: ________________________
+Contact Number: _______________________
+Organization/Institution: _____________
+Do you require accommodation? (Y/N): __
+Dietary Restrictions: ________________

@@ -1,0 +1,12 @@
+BUG REPORT FORM
+
+Reporter Name: ________________________
+Email Address: ________________________
+Software Version: _____________________
+Platform/OS: __________________________
+Describe the Bug:
+______________________________________
+Steps to Reproduce:
+______________________________________
+Expected vs Actual Behavior:
+______________________________________
