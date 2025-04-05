@@ -5,7 +5,7 @@ import fileModel from '@/model/document';
 export async function findMostSimilarDocument(newText: string) {
 
     const newEmbedding = await getEmbedding(newText);
-    const docs = await fileModel.find({}).lean();
+    const docs = await fileModel.find({}).select("_id embeddings").lean();
 
     let bestDoc = null;
     let highestSimilarity = -1;
