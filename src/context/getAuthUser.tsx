@@ -14,7 +14,6 @@ export async function getAuthUser(requiredRole?: string[]) {
     }
     const id = _user._id.toString();
     const role: string = _user.role;
-    const company = _user.company.toString();
 
     if(requiredRole) {
         if(!requiredRole.includes(role))
@@ -24,5 +23,5 @@ export async function getAuthUser(requiredRole?: string[]) {
             );
     }
 
-    return {id, role, company};
+    return {id, role};
 }
