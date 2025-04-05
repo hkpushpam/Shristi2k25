@@ -1,8 +1,13 @@
 "use client";
 
+import { TrendingUp, HelpCircle } from "lucide-react";
+
 import { HoverEffect } from "@/components/ui/card-hover-effect";
-import { Home, FileText, Wallet, UserCircle, LogOut } from "lucide-react";
+import {  FileText, Home, LogOut, } from "lucide-react";
 import Link from "next/link";
+
+
+
 
 const projects = [
   {
@@ -40,12 +45,13 @@ export default function CardHoverEffectDemo() {
           <Link href="/user" className="flex items-center gap-2 hover:text-blue-400">
             <FileText size={18} /> User
           </Link>
-          <Link href="/creditscore" className="flex items-center gap-2 hover:text-blue-400">
-            <Wallet size={18} /> Credit Credit
-          </Link>
-          <Link href="/help" className="flex items-center gap-2 hover:text-blue-400">
-            <UserCircle size={18} /> Help
-          </Link>
+          <Link href="/admin/creditscore" className="flex items-center gap-2 hover:text-blue-400">
+  <TrendingUp size={18} /> Credit Score
+</Link>
+
+<Link href="/help" className="flex items-center gap-2 hover:text-blue-400">
+  <HelpCircle size={18} /> Help
+</Link>
         </nav>
         <div className="pt-6 border-t border-slate-700">
           <button className="flex items-center gap-2 text-red-400 hover:underline">
