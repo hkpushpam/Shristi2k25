@@ -113,6 +113,7 @@ export default function MyDocumentsPage() {
               >
                 <input
                   type="file"
+                  accept=".txt"
                   className="block w-full text-sm text-slate-200 file:mr-4 file:py-2 file:px-4
                              file:rounded-lg file:border-0
                              file:bg-blue-600 file:text-white
