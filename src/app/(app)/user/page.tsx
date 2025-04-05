@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState } from "react";
-import { TrendingUp, HelpCircle, Users, Home } from "lucide-react";
+import { TrendingUp, HelpCircle, Users, Home, LogOut } from "lucide-react";
+import Link from "next/link";
 
 const initialUsers = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
@@ -13,7 +15,7 @@ const initialUsers = Array.from({ length: 20 }, (_, i) => ({
 export default function UsersPage() {
   const [users, setUsers] = useState(initialUsers);
 
-  const toggleStatus = (id) => {
+  const toggleStatus = (id: any) => {
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
         user.id === id
