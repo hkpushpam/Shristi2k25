@@ -5,7 +5,7 @@ const users = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
   name: `User ${i + 1}`,
   email: `user${i + 1}@example.com`,
-  creditLeft: Math.floor(Math.random() * 1000),
+  creditLeft: Math.floor(Math.random() * 19) + 1, // Generates 1 to 19
   status: i % 3 === 0 ? "Inactive" : "Active",
 }));
 
