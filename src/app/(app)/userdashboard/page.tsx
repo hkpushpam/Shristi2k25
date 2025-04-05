@@ -4,6 +4,12 @@
 
 import Link from "next/link";
 import { Bell, LogOut, Settings, FileText, Home } from "lucide-react";
+import { Profiler } from "react";
+
+import { UserCircle } from "lucide-react";
+
+import { Wallet } from "lucide-react";
+
 
 
 
@@ -16,12 +22,23 @@ export default function UserDashboard() {
       <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
         <h2 className="text-2xl font-bold text-blue-400">Dashboard</h2>
         <nav className="space-y-4">
-          <Link href="/dashboard" className="flex items-center gap-2 hover:text-blue-400">
+          <Link href="/userdashboard" className="flex items-center gap-2 hover:text-blue-400">
             <Home size={18} /> Home
           </Link>
-          <Link href="/dashboard/documents" className="flex items-center gap-2 hover:text-blue-400">
+          <Link href="/mydocument" className="flex items-center gap-2 hover:text-blue-400">
             <FileText size={18} /> My Documents
           </Link>
+
+          <Link href="/credits" className="flex items-center gap-2 hover:text-blue-400">
+  <Wallet size={18} /> Request Credit
+</Link>
+
+          {/* import { UserCircle } from "lucide-react"; // Make sure this is imported */}
+
+<Link href="/miscellenious" className="flex items-center gap-2 hover:text-blue-400"> 
+  <UserCircle size={18} /> My Profile
+</Link>
+
           
         </nav>
         <div className="pt-6 border-t border-slate-700">
