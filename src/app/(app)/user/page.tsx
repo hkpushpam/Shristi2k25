@@ -1,31 +1,47 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { TrendingUp, HelpCircle, Users, Home, LogOut } from "lucide-react";
 import Link from "next/link";
 
-const initialUsers = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  name: `User ${i + 1}`,
-  email: `user${i + 1}@example.com`,
-  creditLeft: Math.floor(Math.random() * 19) + 1,
-  status: i % 3 === 0 ? "Inactive" : "Active",
-}));
-
 export default function UsersPage() {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState<any[]>([]);
 
-  const toggleStatus = (id: any) => {
+  useEffect(() => {
+    // Fetch users from API
+    fetch("/api/allUser")
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
+      .catch((err) => console.error("Error fetching users:", err));
+  }, []);
+
+  const toggleStatus = async (user: any) => {
+    const newStatus = user.status === "Active" ? "Inactive" : "Active";
+    const userId = user.id || user._id;
+
+    // Optimistically update UI
     setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === id
-          ? {
-              ...user,
-              status: user.status === "Active" ? "Inactive" : "Active",
-            }
-          : user
+      prevUsers.map((u) =>
+        (u.id || u._id) === userId
+          ? { ...u, status: newStatus }
+          : u
       )
     );
+
+    // Send POST request to update activity status
+    try {
+      await fetch(`/api/userActivity/${userId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+    } catch (err) {
+      console.error("Error updating user status:", err);
+      // Optional: rollback UI if needed
+    }
   };
 
   return (
@@ -69,21 +85,21 @@ export default function UsersPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700">
-                {users.map((user) => (
-                  <tr key={user.id} className="hover:bg-slate-700 transition">
+                {users.map((user: any) => (
+                  <tr key={user.id || user._id} className="hover:bg-slate-700 transition">
                     <td className="px-4 py-3">{user.name}</td>
-                    <td className="px-4 py-3">{user.creditLeft} credits</td>
+                    <td className="px-4 py-3">{user.credits ?? 0} credits</td>
                     <td className="px-4 py-3">{user.email}</td>
                     <td className="px-4 py-3">
                       <button
-                        onClick={() => toggleStatus(user.id)}
+                        onClick={() => toggleStatus(user)}
                         className={`px-2 py-1 rounded-full text-xs font-medium transition ${
                           user.status === "Active"
                             ? "bg-green-400/10 text-green-400 hover:bg-green-400/20"
                             : "bg-red-400/10 text-red-400 hover:bg-red-400/20"
                         }`}
                       >
-                        {user.status}
+                        {user.status || "Inactive"}
                       </button>
                     </td>
                   </tr>

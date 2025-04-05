@@ -1,26 +1,45 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { TrendingUp, HelpCircle, Users, Home, LogOut, User } from "lucide-react";
 import Link from "next/link";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-
-const topUser = {
-  name: "Alice Johnson",
-  credits: 340,
-  email: "alice@example.com",
-};
-
-const userGrowthData = [
-  { name: "Jan", users: 200 },
-  { name: "Feb", users: 350 },
-  { name: "Mar", users: 500 },
-  { name: "Apr", users: 650 },
-  { name: "May", users: 820 },
-  { name: "Jun", users: 1000 },
-  { name: "Jul", users: 1204 },
-];
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 export default function AdminDashboard() {
+  const [totalUsers, setTotalUsers] = useState<number | null>(null);
+  const [topUser, setTopUser] = useState<{ name: string; email: string; credits: number } | null>(
+    null
+  );
+  const [growthData, setGrowthData] = useState([]);
+
+  useEffect(() => {
+    // Get total users
+    fetch("/api/user/total")
+      .then((res) => res.json())
+      .then((data) => setTotalUsers(data.total))
+      .catch((err) => console.error("Error fetching total users:", err));
+
+    // Get top user
+    fetch("/api/user/topUser")
+      .then((res) => res.json())
+      .then((data) => setTopUser(data))
+      .catch((err) => console.error("Error fetching top user:", err));
+
+    // Get user growth data (scans)
+    fetch("/api/admin/scanAnalyze")
+      .then((res) => res.json())
+      .then((data) => setGrowthData(data))
+      .catch((err) => console.error("Error fetching scanAnalyze data:", err));
+  }, []);
+
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
       {/* Sidebar */}
@@ -58,37 +77,48 @@ export default function AdminDashboard() {
 
         {/* Stats Cards */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Total Users */}
           <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
             <h2 className="text-lg font-semibold text-blue-400">Total Users</h2>
-            <p className="text-3xl font-bold mt-2">1,204</p>
+            <p className="text-3xl font-bold mt-2">
+              {totalUsers !== null ? totalUsers : "Loading..."}
+            </p>
           </div>
-          <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
-            <h2 className="text-lg font-semibold text-blue-400">Reports Reviewed</h2>
-            <p className="text-3xl font-bold mt-2">87</p>
-          </div>
+
+          {/* Top User */}
           <div className="bg-slate-800 p-6 rounded-2xl shadow-md">
             <h2 className="text-lg font-semibold text-blue-400">Top User</h2>
-            <div className="mt-2">
-              <p className="text-xl font-bold flex items-center gap-2">
-                <User size={18} /> {topUser.name}
-              </p>
-              <p className="text-sm text-slate-400">{topUser.email}</p>
-              <p className="mt-1 text-green-400 font-semibold">{topUser.credits} credits</p>
-            </div>
+            {topUser ? (
+              <div className="mt-2">
+                <p className="text-xl font-bold flex items-center gap-2">
+                  <User size={18} /> {topUser.name}
+                </p>
+                <p className="text-sm text-slate-400">{topUser.email}</p>
+                <p className="mt-1 text-green-400 font-semibold">{topUser.credits} credits</p>
+              </div>
+            ) : (
+              <p className="text-slate-400 mt-2">Loading...</p>
+            )}
           </div>
         </section>
 
         {/* Chart */}
         <section className="bg-slate-800 p-6 rounded-2xl shadow-md">
-          <h2 className="text-lg font-semibold text-blue-400 mb-4">User Growth Over Time</h2>
+          <h2 className="text-lg font-semibold text-blue-400 mb-4">Analyze Chart</h2>
           <div className="w-full h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={userGrowthData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <LineChart data={growthData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="name" stroke="#cbd5e1" />
+                <XAxis dataKey="month" stroke="#cbd5e1" />
                 <YAxis stroke="#cbd5e1" />
                 <Tooltip />
-                <Line type="monotone" dataKey="users" stroke="#60a5fa" strokeWidth={2} dot={{ r: 4 }} />
+                <Line
+                  type="monotone"
+                  dataKey="scans"
+                  stroke="#60a5fa"
+                  strokeWidth={2}
+                  dot={{ r: 4 }}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
