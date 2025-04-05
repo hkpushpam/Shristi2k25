@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
                 email: { label: "Email", type: "text" },
                 password: { label: "Password", type: "password" }
             },
-            
+
             async authorize(credentials: any): Promise<any> {
                 await dbConnect()
                 try {
@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
                     if (!user) {
                         throw new Error('User not found with the given user')
                     }
-                    if(!user.isActive){
+                    if (!user.isActive) {
                         throw new Error('User has been Disabled, Please Contact the Administration')
                     }
                     const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token.id = user._id?.toString();
-                token.name =  user.name;
+                token.name = user.name;
                 token.role = user.role;
                 token.email = user.email;
             }
@@ -63,6 +63,6 @@ export const authOptions: NextAuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: '/signin'
+        signIn: '/signin',
     },
 };

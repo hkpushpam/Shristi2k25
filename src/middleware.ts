@@ -4,10 +4,15 @@ export { default } from "next-auth/middleware";
 
 export const config = {
   matcher: [
-    // "/signin",
-    // "/signup",
-    // "/admin",
-    // "/superAdmin",
+    "/",
+    "/about",
+    "/admin",
+    "/creditscore",
+    "/help",
+    "/miscellenious",
+    "/mydocument",
+    "/user",
+    "/userdashboard"
   ],
 };
 
@@ -18,18 +23,21 @@ export async function middleware(request: NextRequest) {
   if (
     token &&
     (url.pathname.startsWith("/signin") ||
-      url.pathname.startsWith("/signup") ||
-      url.pathname.startsWith("/verify") ||
-      url.pathname === "/")
+      url.pathname.startsWith("/signup")
+    )
   ) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/user", request.url));
   }
 
-  if (!token) {
-    const response = NextResponse.redirect(new URL("/signin", request.url));
-    response.cookies.delete("next-auth.session-token");
-    return response;
-  }
+  // if (!url.pathname.startsWith("/signin") ||
+  //   !url.pathname.startsWith("/signup")
+  // ) {
+  //   if (!token) {
+  //     const response = NextResponse.redirect(new URL("/homepage", request.url));
+  //     response.cookies.delete("next-auth.session-token");
+  //     return response;
+  // //   }
+  // }
 
   return NextResponse.next();
 }

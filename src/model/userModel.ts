@@ -4,7 +4,6 @@ export interface User extends Document {
     email: string;
     password: string;
     name: string;
-    mobile: string;
     role: string;
     credit_left: number;
     credit_used: number;
@@ -20,10 +19,6 @@ export const userSchema: Schema<User> = new Schema({
     name: {
         type: String,
         required: [true, "Please provide a name"],
-    },
-    mobile: {
-        type: String,
-        required: [true, "Plese provide a mobile number"],
     },
     email: {
         type: String,
