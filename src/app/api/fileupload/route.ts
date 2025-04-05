@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     await mkdir(uploadDir, { recursive: true });
     await mkdir(saveDir, { recursive: true });
 
-    const _user = await getAuthUser(["Admin"]);
+    const _user = await getAuthUser(["User"]);
     if (_user instanceof NextResponse) return _user;
 
     const form = new IncomingForm({
@@ -72,7 +72,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({
                         success: true,
                         message: 'Uploaded',
-                        id: fileName,
                     },
                     { status: 200 }
             );
