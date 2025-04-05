@@ -4,10 +4,10 @@ export { default } from "next-auth/middleware";
 
 export const config = {
   matcher: [
-    "/signin",
-    "/signup",
-    "/admin",
-    "/superAdmin",
+    // "/signin",
+    // "/signup",
+    // "/admin",
+    // "/superAdmin",
   ],
 };
 
