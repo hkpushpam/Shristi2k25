@@ -9,8 +9,7 @@ import {
   Wallet,
   UserCircle,
   PlusCircle,
-  Eye,
-  Trash2,
+ 
   X,
 } from "lucide-react";
 import RequestCreditModal from "@/components/RequestCreditModal";
