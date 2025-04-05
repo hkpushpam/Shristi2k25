@@ -8,8 +8,6 @@ import {
   Wallet,
   UserCircle,
   LogOut,
-  Eye,
-  Trash2,
   PlusCircle,
   X,
 } from "lucide-react";
@@ -25,7 +23,7 @@ export default function MyDocumentsPage() {
 
   return (
     <div className="flex min-h-screen bg-slate-900 text-white">
-      {/* Sidebar (same as Miscellenious) */}
+      {/* Sidebar */}
       <aside className="w-64 bg-slate-800 p-6 space-y-6 hidden md:block">
         <h2 className="text-2xl font-bold text-blue-400">Dashboard</h2>
         <nav className="space-y-4">
@@ -80,13 +78,7 @@ export default function MyDocumentsPage() {
               </div>
               <div className="flex gap-3">
                 <button className="text-blue-400 hover:underline flex items-center gap-1">
-                  <Eye size={16} /> View
-                </button>
-                <button className="text-blue-400 hover:underline flex items-center gap-1">
                   🔁 Compare
-                </button>
-                <button className="text-red-400 hover:underline flex items-center gap-1">
-                  <Trash2 size={16} /> Delete
                 </button>
               </div>
             </div>
