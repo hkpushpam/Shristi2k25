@@ -1,5 +1,5 @@
+import '@tensorflow/tfjs-node';
 import * as use from '@tensorflow-models/universal-sentence-encoder';
-// import * as tf from '@tensorflow/tfjs-node';
 
 export async function getEmbedding(text: string): Promise<number[]> {
     const model = await use.load();

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document} from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface User extends Document {
     email: string;
@@ -26,7 +26,7 @@ export const userSchema: Schema<User> = new Schema({
         unique: true,
         match: [/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, "Please use a valid Email Address"]
     },
-    credit_left:{
+    credit_left: {
         type: Number,
     },
     role: {
@@ -41,7 +41,10 @@ export const userSchema: Schema<User> = new Schema({
         type: Boolean,
         default: false
     },
-    lastLogin: Date
+    lastLogin: {
+        type: Date,
+        default: Date.now()
+    }
 })
 
 const UserModel = (mongoose.models.users as mongoose.Model<User>) || mongoose.model<User>("users", userSchema)

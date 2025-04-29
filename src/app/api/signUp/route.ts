@@ -5,10 +5,10 @@ import bcrypt from 'bcryptjs';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-    await dbConnect();
     console.log("Request recieved");
+    await dbConnect();
     try {
-        const validate = signUpSchema.safeParse(await request.json);
+        const validate = signUpSchema.safeParse(await request.json());
         if (validate.success) {
             const validatedData = validate.data;
             const existingUserByEmail = await UserModel.findOne({ email: validatedData.email })
@@ -40,8 +40,8 @@ export async function POST(request: Request) {
                     password: hashedPassword,
                     name: validatedData.name,
                     credit_left: 20,
-                    isVerified: true,
-                    role: 'user',
+                    isActive: true,
+                    role: 'User',
                     lastLogin: Date.now()
                 });
 

@@ -6,7 +6,8 @@ declare module 'next-auth' {
       _id?: string;
       email?: string;
       role?: string;
-      company?: string;
+      credit_left?: number;
+      lastLogin?: Date;
     } & DefaultSession['user'];
   }
 
@@ -14,7 +15,8 @@ declare module 'next-auth' {
     _id?: string;
     email?: string;
     role?: string;
-    company?: string;
+    credit_left?: number;
+    lastLogin?: Date;
   }
 }
 
@@ -23,6 +25,7 @@ declare module 'next-auth/jwt' {
     _id?: string;
     email?: string;
     role?: string;
-    company?: string;
+    credit_left?: number;
+    lastLogin?: Date;
   }
 }

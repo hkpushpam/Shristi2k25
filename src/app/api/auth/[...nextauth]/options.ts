@@ -5,6 +5,8 @@ import bcrypt from 'bcryptjs';
 import dbConnect from "@/lib/dbConnect";
 import User from "@/model/userModel";
 
+let last_login:Date
+
 export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
@@ -29,7 +31,10 @@ export const authOptions: NextAuthOptions = {
                     }
                     const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
                     if (isPasswordCorrect) {
-                        return user;
+                        last_login = user.lastLogin;
+                        user.lastLogin = new Date
+                        const _user = await user.save()
+                        return _user;
                     } else {
                         throw new Error('Incorrect password')
                     }
@@ -46,6 +51,8 @@ export const authOptions: NextAuthOptions = {
                 token.name = user.name;
                 token.role = user.role;
                 token.email = user.email;
+                token.credit_left = user.credit_left;
+                token.lastLogin = last_login;
             }
             return token;
         },
@@ -54,6 +61,8 @@ export const authOptions: NextAuthOptions = {
                 session.user._id = token.id;
                 session.user.role = token.role;
                 session.user.email = token.email;
+                session.user.credit_left = token.credit_left;
+                session.user.lastLogin = token.lastLogin;
             }
             return session;
         },

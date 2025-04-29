@@ -74,7 +74,7 @@ export default function SignInForm() {
         description: "Redirecting to dashboard",
         variant: "destructive",
       });
-      router.replace("/dashboardNew");
+      router.replace("/userdashboard");
     }
     setIsSubmitting(false);
   };

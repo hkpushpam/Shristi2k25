@@ -10,6 +10,7 @@ import {
   UserCircle,
 } from "lucide-react";
 import RequestCreditModal from "@/components/RequestCreditModal";
+import { signOut } from "next-auth/react";
 
 export default function UserDashboard() {
   const [showCreditModal, setShowCreditModal] = useState(false);
@@ -34,7 +35,7 @@ export default function UserDashboard() {
       try {
         const res = await fetch("/api/auth/session");
         const sessionData = await res.json();
-        setCreditLeft(sessionData.user?.credit || 0);
+        setCreditLeft(sessionData.user?.credit_left || 0);
         const lastLoginDate = sessionData.user?.lastLogin
           ? new Date(sessionData.user.lastLogin).toLocaleDateString("en-US", {
               year: "numeric",
@@ -51,6 +52,15 @@ export default function UserDashboard() {
     fetchDocuments();
     fetchSession();
   }, []);
+
+  async function handleLogout() {
+    console.log("Logging out...");
+      try {
+        await signOut({ callbackUrl: "/" });
+      } catch (error) {
+        console.error("Error during logout:", error);
+      }
+  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
@@ -75,7 +85,7 @@ export default function UserDashboard() {
           </Link>
         </nav>
         <div className="pt-6 border-t border-slate-700">
-          <button className="flex items-center gap-2 text-red-400 hover:underline">
+          <button className="flex items-center gap-2 text-red-400 hover:underline" onClick={() => handleLogout()}>
             <LogOut size={18} /> Logout
           </button>
         </div>

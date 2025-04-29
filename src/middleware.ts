@@ -1,43 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+
 export { default } from "next-auth/middleware";
 
 export const config = {
   matcher: [
-    "/",
-    "/about",
+    "/homepage",
+    "/signin",
+    "/signup",
     "/admin",
-    "/creditscore",
-    "/help",
-    "/miscellenious",
-    "/mydocument",
-    "/user",
-    "/userdashboard"
+    "/userdashboard",
   ],
 };
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
-  const url = request.nextUrl;
+  const { pathname } = request.nextUrl;
 
-  if (
-    token &&
-    (url.pathname.startsWith("/signin") ||
-      url.pathname.startsWith("/signup")
-    )
-  ) {
-    return NextResponse.redirect(new URL("/user", request.url));
+  if (!token) {
+    if (pathname !== "/signin" && pathname !== "/signup"&& pathname !== "/") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+    return NextResponse.next();
   }
 
-  // if (!url.pathname.startsWith("/signin") ||
-  //   !url.pathname.startsWith("/signup")
-  // ) {
-  //   if (!token) {
-  //     const response = NextResponse.redirect(new URL("/homepage", request.url));
-  //     response.cookies.delete("next-auth.session-token");
-  //     return response;
-  // //   }
-  // }
+
+  if (
+    pathname === "/" ||
+    pathname === "/signin" ||
+    pathname === "/signup"
+  ) {
+    if (token.role === "Admin") {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
+    if (token.role === "User") {
+      return NextResponse.redirect(new URL("/userdashboard", request.url));
+    }
+  }
+
+  if (pathname === "/admin" && token.role !== "Admin") {
+    return NextResponse.redirect(new URL("/userdashboard", request.url));
+  }
+  if (pathname === "/userdashboard" && token.role !== "User") {
+    return NextResponse.redirect(new URL("/admin", request.url));
+  }
 
   return NextResponse.next();
 }

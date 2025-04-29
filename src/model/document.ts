@@ -16,6 +16,6 @@ export const filesSchema: Schema<Files> = new Schema({
     },
 })
 
-const fileModel = (mongoose.models.files as mongoose.Model<Files>) || mongoose.model<Files>("users", filesSchema);
+const fileModel = (mongoose.models.files as mongoose.Model<Files>) || mongoose.model<Files>("files", filesSchema);
 
 export default fileModel;

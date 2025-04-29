@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,6 +13,7 @@ import {
   X,
 } from "lucide-react";
 import RequestCreditModal from "@/components/RequestCreditModal";
+import { signOut } from "next-auth/react";
 
 export default function UserDashboard() {
   const [showCreditModal, setShowCreditModal] = useState(false);
@@ -35,32 +37,76 @@ export default function UserDashboard() {
   }, []);
 
   // Handle file upload
+  // const handleUpload = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   if (!selectedFile) return;
+
+  //   const formData = new FormData();
+  //   formData.append("file", selectedFile);
+
+  //   try {
+  //     const res = await fetch("/api/fileupload", {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+
+  //     if (res.ok) {
+  //       const updatedDocs = await res.json();
+  //       setDocuments(updatedDocs.documents || []);
+  //       setShowModal(false);
+  //       setSelectedFile(null);
+  //     } else {
+  //       console.error("Upload failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error uploading file:", error);
+  //   }
+  // };
+
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!selectedFile) return;
 
-    const formData = new FormData();
-    formData.append("file", selectedFile);
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const content = event.target?.result;
+      if (typeof content === "string") {
+        const payload = {
+          filename: selectedFile.name,
+          content,
+        };
 
-    try {
-      const res = await fetch("/api/fileupload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (res.ok) {
-        const updatedDocs = await res.json();
-        setDocuments(updatedDocs.documents || []);
-        setShowModal(false);
-        setSelectedFile(null);
-      } else {
-        console.error("Upload failed");
+        try {
+          const response = await fetch("/api/fileupload", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (response.ok) {
+            const updatedDocs = await response.json();
+            setDocuments(updatedDocs.documents || []);
+            setShowModal(false)
+            setSelectedFile(null);
+          } else {
+            console.error("Upload failed");
+          }
+        } catch (error) {
+          console.error("Error uploading file:", error);
+        }
       }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
+    };
+    reader.readAsText(selectedFile);
   };
+
+  async function handleLogout() {
+    console.log("Logging out...");
+    try {
+      await signOut({ callbackUrl: "/" });
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
@@ -85,7 +131,7 @@ export default function UserDashboard() {
           </Link>
         </nav>
         <div className="pt-6 border-t border-slate-700">
-          <button className="flex items-center gap-2 text-red-400 hover:underline">
+          <button className="flex items-center gap-2 text-red-400 hover:underline" onClick={() => handleLogout()}>
             <LogOut size={18} /> Logout
           </button>
         </div>
